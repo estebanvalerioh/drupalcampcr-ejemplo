@@ -1,0 +1,9 @@
+name = Drupal Camp 2013
+description = Drupal Camp 2013 module example.
+package = Camp2013
+version = "7.x-1.x"
+core = 7.x
+files[] = dcrcamp.module
+configure = admin/config/dcrcamp
+;stylesheets[all][] = dcrcamp.css
+;dependencies[] = node

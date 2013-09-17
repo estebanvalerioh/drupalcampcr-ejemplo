@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * @file
+ * Module of examples for Drupal Camp 2013.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function dcrcamp_schema() {
+  $schema['dcrcamp'] = array(
+    'description' => 'The base table for Drupal Camp.',
+    'fields' => array(
+      'dcrid' => array(
+        'description' => 'The primary identifier for a dcrcamp.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'title' => array(
+        'description' => 'The title of the field.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'primary key' => array('dcrid'),
+  );
+  return $schema;
+}

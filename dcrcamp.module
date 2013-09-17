@@ -1,0 +1,158 @@
+<?php
+
+/**
+ * @file
+ * Module of examples for Drupal Camp 2013.
+ */
+
+/**
+ * Implements hook_init().
+ */
+function dcrcamp_init() {
+  drupal_set_message(t('Welcome'), 'status', FALSE);
+  drupal_set_message(variable_get('dcrcamp_id'), 'status', FALSE);
+
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function dcrcamp_block_info() {
+  $blocks['campcr'] = array(
+    'info' => t('Camp Costa Rica'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function dcrcamp_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'campcr':
+      $block['subject'] = t('Camp Costa Rica');
+      $block['content'] = dcrcamp_campcr_block_content();
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Generates content for block.
+ *
+ * @return string
+ *   Custom Html.
+ */
+function dcrcamp_campcr_block_content() {
+  return '<div>' . t('Hello World block njsa ndjas djas ') . '</div>';
+}
+
+/**
+ * Implements hook_menu().
+ */
+function dcrcamp_menu() {
+  $items['admin/config/dcrcamp'] = array(
+    'title' => 'Camp Costa Rica configuration',
+    'description' => 'Configuration page.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dcrcamp_config_page'),
+    'access arguments' => array('access content'),
+    'file' => 'dcrcamp.admin.inc',
+  );
+
+  $items['example'] = array(
+    'title' => 'Example Page',
+    'page callback' => 'dcrcamp_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'dcrcamp.pages.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function dcrcamp_form_alter(&$form, &$form_state, $form_id) {
+  watchdog(__FUNCTION__, '<pre>' . print_r($form_id, 1) . '</pre>');
+
+  if ($form_id == 'dcrcamp_config_page') {
+    $form['dcrcamp']['dcrcamp_id_test'] = array(
+      '#type' => 'textfield',
+      '#required' => FALSE,
+      '#description' => 'PRUEBA',
+      '#title' => 'PRUEBA',
+      '#default_value' => variable_get('dcrcamp_id_test', ''),
+    );
+  }
+}
+
+/**
+ * Insert data on custom table.
+ *
+ * @param string $title
+ *   Title to insert on custom table.
+ */
+function _dcrcamp_insert_data($title) {
+  $nid = db_insert('dcrcamp')
+    ->fields(array(
+      'title' => $title,
+    ))
+    ->execute();
+}
+
+/**
+ * Get data from custom table.
+ *
+ * @return array
+ *   Data form custom table.
+ */
+function _dcrcamp_get_data() {
+  $result = db_select('dcrcamp', 'd')
+    ->fields('d')
+    ->execute()
+    ->fetchAssoc();
+
+  return $result;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
